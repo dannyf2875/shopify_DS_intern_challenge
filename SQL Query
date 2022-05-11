@@ -1,0 +1,32 @@
+"Question 2: For this question you’ll need to use SQL. Follow this link to access the data set required for the challenge. Please use queries to answer the following questions. Paste your queries along with your final numerical answers below."
+
+"a.	How many orders were shipped by Speedy Express in total?"
+
+SELECT COUNT(DISTINCT(OrderID))
+FROM Orders
+LEFT JOIN Shippers ON Orders.ShipperID = Shippers.ShipperID
+WHERE Orders.ShipperID = 1
+Result = 54
+
+"b.	What is the last name of the employee with the most orders?"
+
+SELECT COUNT(OrderID) AS OrderCount, Employees.LastName
+FROM Employees
+LEFT JOIN Orders ON Orders.EmployeeID = Employees.EmployeeID
+GROUP BY Employees.EmployeeID
+ORDER BY OrderCount DESC
+LIMIT 1
+Result = Peacock
+
+"c.	What product was ordered the most by customers in Germany?"
+
+SELECT COUNT(Products.ProductID) AS Count, Products.ProductID, Products.ProductName
+FROM OrderDetails
+LEFT JOIN Orders on OrderDetails.OrderID = Orders.OrderID
+LEFT JOIN Products on OrderDetails.ProductID = Products.ProductID
+LEFT JOIN Customers on Customers.CustomerID = Orders.CustomerID
+WHERE Customers.Country = 'Germany'
+GROUP BY Products.ProductID
+ORDER BY Count DESC
+LIMIT 1
+Result = Gorgonzola Telino
